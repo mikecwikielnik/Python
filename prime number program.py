@@ -18,7 +18,7 @@ print(primes)
 
 for value in range(1,100):
     if value % 2 == 0:
-        print(f"{value} is a prime number and Bank of China should take Mike C. as a data analyst. He can do anything!")
+        print(f"{value} is a prime number")
         
 
 # this second way appends an empty set so you can print the values set any time you want 
