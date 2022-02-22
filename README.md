@@ -1,2 +1,5 @@
 # Python
-Python samples that are self-taught. 
+
+Hi! 
+
+This repository is to showcase my Python coding samples and various projects. 
