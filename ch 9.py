@@ -4,6 +4,10 @@
 # Creating the Dog Class
 
 from email import message_from_binary_file
+from itertools import count
+
+from numpy import empty, number
+from soupsieve import match
 
 
 class Dog:
@@ -797,18 +801,318 @@ friend_3.show_permissions('view', 'print', 'export to pdf')
 # Matthes, Eric. Python Crash Course, 2nd Edition (p. 174). No Starch Press. Kindle Edition. 
 
 
-class Privileges(Admin):
+class Privileges(User):
     """
-    Attemmpt to write a Privileges class. 
+    Attempt to write another class. 
     """
-    def __init__(self, *args):
-        super(Privileges,Admin.__init__(*args))
-        """Attemmpt to write a Privileges class. 
+    
+    def __init__(self, first, last, hair, eye):
         """
-        self.privileges = 1
+        Initializing attributes from the parent class Admin. 
+        """
+        super().__init__(first, last, hair, eye)
+        self.priv_1 = 3
         
-    def show_privileges(self, *args):
-        """Show as many arguments as you can. """
+    def show_privileges(self):
+        """Show the number of privileges a user has. """
+        print(f"This user has {self.priv_1}.")
         
+friend_3 = Privileges('Texas', 'Chainsaw', 'black', 'red')
+
+friend_3.greet_user()
+
+friend_3.show_privileges()
+
+
+# 9-9. Battery Upgrade: Use the final version of electric_car.py from this section. Add a method to the Battery class called upgrade_battery(). 
+
+# This method should check the battery size and set the capacity to 100 if it isn’t already. 
+
+# Make an electric car with a default battery size, call get_range() once, and then call get_range() a second time after upgrading the battery.
+
+# You should see an increase in the car’s range.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 174). No Starch Press. Kindle Edition. 
+
+
+class Car:
+    """A simple attempt to represent a car. """
+    
+    def __init__(self, make, model, year):
+        """Initialize attributes to describe a car. """
+        self.make = make
+        self.model = model
+        self.year = year
+        self.odometer_reading = 0      
         
+    def get_descriptive_name(self):
+        """Return a neatly descriptive formatted name. """
+        long_name = f"{self.year} {self.make} {self.model}"
+        return long_name.title()
+    
+    def read_odometer(self):
+        """Print a statement showing the car's mileage. """
+        print(f"This car has {self.odometer_reading} miles on it") 
+
+    def update_odometer(self, mileage):     # update_odometer needs an input 
+        """
+        Set the odometer reading to the given value.
+        Reject the chanage if it attempts to roll the odometer back. 
+        """
+        if mileage >= self.odometer_reading:
+            self.odometer_reading = mileage
+        else: 
+            print("You can't roll back an odometer! ")
+            
+class Battery:
+    """A simple attempt to model a battery for an electric car."""
+    
+    def __init__(self, battery_size=75):
+        """Initialize the battery's attributes. """
+        self.battery_size = battery_size
         
+    def describe_battery(self):
+        """Print a statement describing the battery size. """
+        print(f"This car has a {self.battery_size}-kwh battery. ")
+        
+    def get_range(self):
+        """Print a statement about the range this battery provides. """
+        if self.battery_size == 75:
+            range = 260
+        elif self.battery_size == 100:
+            range = 315 
+        print(f"This car can go about {range} miles on full charge. ")
+    
+    def upgrade_battery(self):
+        """Attempt to create a method to check the battery life. """
+        if self.battery_size:
+            self.battery_size += 25         # Increase in the question gave you a hint about this increment in battery size. 
+            print(f"The battery size is {self.battery_size}. ")
+        else:
+            print(f"The battery size is {self.battery_size}. ")
+    
+
+class ElectricCar(Car):
+    """Represent aspects of a car, specific to electric vehicles. """
+    
+    def __init__(self, make, model, year):
+        """
+        Initialize attributes of the parent class. 
+        Then initialize attributes specific to an electric car. 
+        """
+        super().__init__(make, model, year)
+        self.battery = Battery()        # you need to study this further because it provides the ability to use methods in the Battery class. 
+        
+    def describe_battery(self):
+        """Print a statement describing the battery size. """
+        print(f"This car has a {self.battery_size}-kwh battery. ")
+ 
+
+my_tesla = Battery()
+
+my_tesla.describe_battery()
+
+my_tesla.get_range()
+
+my_tesla.upgrade_battery()
+
+my_tesla.describe_battery()
+
+my_tesla.get_range()
+
+
+# Importing Classes 
+
+# import Car
+
+my_new_car = Car('audi', 'a4', 2019)
+print(my_new_car.get_descriptive_name())
+
+my_new_car.odometer_reading = 23
+my_new_car.read_odometer()
+
+
+# Storing multiple classes in a module 
+
+# """A set of classes used to represent gas and electric cars. """
+
+# from car import Car, ElectricCar
+
+# my_beetle = Car('volkswagen', 'beetle', 2019)
+# print(my_beetle.get_descriptive_name())
+
+
+# my_honda = ElectricCar('honda', 'accord', 2022)
+# print(my_honda.get_descriptive_name())
+
+
+# # importing entire module  
+
+# import car
+
+# my_cadillac = car.Car('cadillac', 'luxury sedan', 2022)
+# my_cadillac.get_descriptive_name()
+
+# my_toyota = car.ElectricCar('toyota', 'prius', 2021)
+# print(my_toyota.get_descriptive_name())
+
+# Using Aliases
+
+# import ElectricCar as EC          # import pamdas as pd
+# my_tesla = EC('tesla', 'roadster', 2019)
+
+
+### Questions 9-10, 9-11, 9-12 are their own files. 
+
+# The Python Standar Library 
+
+from random import choices, randint, random
+
+from random import choice
+
+players = ['bergeron', 'marchand', 'pastrnak', 'mcdavid', 'crosby']
+
+first_up = choice(players)
+
+first_up
+
+
+# 9-13. Dice: Make a class Die with one attribute called sides, which has a default value of 6. 
+
+# Write a method called roll_die() that prints a random number between 1 and the number of sides the die has. Make a 6-sided die and roll it 10 times. Make a 10-sided die and a 20-sided die. 
+
+# Roll each die 10 times.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 181). No Starch Press. Kindle Edition. 
+
+
+class Die:
+    """An attempt to make a 6 sided die. """
+    
+    def __init__(self, default = 6):
+        """
+        Initialize dice attributes. 
+        """
+        self.default = default
+        
+    def roll_dice(self):
+        """Prints number between 1, 6 for a six sided die. """
+        self.num = randint(1,6)
+        print(f"this die has rolled a {self.num}. ")
+        
+    def die_loop(self):
+        """
+        A loop to print the 6 sided die, 10 times. 
+        It will be a different die than roll_dice() if you keep the loop in this method. 
+        It will be the same die as roll_dice() if you comment the loop. 
+        """
+        x = 0
+        while x < 11:
+            self.num = randint(1,6)
+            print(f"This die is a {self.num}. ")
+            x += 1
+        else:
+            print(f"all done. ")
+        
+die_a = Die()
+
+die_a.roll_dice()
+
+die_a.die_loop()
+
+class Die_B: 
+    """An attempt to make a die of any size. """
+    
+    def __init__(self):
+        """Initialize attributes. """
+        self.die = 0
+        
+    def roll_dice(self):
+        """Prints any number sided die. """
+        self.die = randint(1,100)
+        print(f"This die has {self.die} sides. ")
+        
+    def die_loop(self):
+        """Print the outcome ten times. """
+        x = 0 
+        while x < 11:
+            self.die = randint(1,20)
+            print(f"This die has rolled a {self.die}. ")
+            x += 1
+        else:
+            print("All done. ")
+
+die_b = Die_B()
+
+die_b.roll_dice()
+
+die_b.die_loop()
+
+
+
+# 9-14. Lottery: Make a list or tuple containing a series of 10 numbers and five letters. 
+
+# Randomly select four numbers or letters from the list and print a message saying that any ticket matching these four numbers or letters wins a prize.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 181). No Starch Press. Kindle Edition. 
+
+
+
+class Lottery:
+    
+    def __init__(self):
+        """Initializing inputs. """
+        # you have proved you don't need anything but perhaps this method def __init__(self):
+        
+    def lottery_ticket(self):
+        """Print a lottery ticket. """
+        list = ['a', 'b', 'c', 'd', 'e']
+        x = 0 
+        while x < 1:
+            a = choice(list)
+            b = choice(list)
+            c = randint(0,9)
+            d = randint(0,9)
+            print(f"These is the winning ticket: {a} {b} {c} {d}. ")
+            x += 1
+        else:
+            print("All done. ")
+
+
+
+lottery_a = Lottery()
+
+lottery_a.lottery_ticket()
+
+
+# 9-15. Lottery Analysis: You can use a loop to see how hard it might be to win the kind of lottery you just modeled. 
+
+# Make a list or tuple called my_ticket. Write a loop that keeps pulling numbers until your ticket wins. 
+
+# Print a message reporting how many times the loop had to run to give you a winning ticket.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 181). No Starch Press. Kindle Edition. 
+
+from random import choice, randint, random
+
+
+list_2 = ['a', 'b']
+x = 0
+empty_list = []
+
+while x < 100:
+    letter = choice(list_2)
+    num = randint(1,2)
+    empty_list.append(letter)
+    empty_list.append(num)
+    if empty_list == ['a', 1]:
+        print("Match! ")
+        break
+    else:
+        empty_list = []
+        print("We did not have a match. ")
+    x +=1
+    
+print(f"It took {x+1} loops ")
+    
+print(empty_list)
