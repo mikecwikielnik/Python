@@ -2,7 +2,11 @@
 """Files and Exceptions. """
 
 
+from itertools import count
+from urllib.error import ContentTooShortError
 from isort import file
+from matplotlib.font_manager import json_dump
+from matplotlib.pyplot import text
 from sympy import content
 
 
@@ -211,3 +215,248 @@ except FileNotFoundError:
     
 # Analyzing Text 
 
+title = 'Alice in Wonderland'
+
+title.split()
+
+filename = 'alice.txt'
+
+try:
+    with open(filename, encoding='utf-8') as f:
+        contents = f.read()
+except FileNotFoundError:
+    print(f"Sorry, the file {filename} does not exist. ")
+else:
+    # Count the number of words in a file.
+    words = contents.split()
+    num_words = len(words)
+    print(f"The file {filename} has about {num_words} words. ")
+
+# Very cool! 
+
+# Working with multiple files 
+
+def counted_words(filename):
+    """Count the approximate words of a file. """
+    try:
+        with open(filename, encoding='utf-8') as f:
+            contents = f.read()
+    except FileNotFoundError:
+        print(f"Sorry, the file {filename} does not exist. ")
+    else:
+        # Count the words of a file
+        words = contents.split()
+        num_words = len(words)
+        print(f"The file {filename} has about {num_words} words. ")
+
+filename = ['alice.txt', 'goosebumps.txt', 'scarlet.txt', 'frankenstein.txt']
+
+for file in filename:
+    counted_words(file)
+    
+    
+# Failing Silently 
+
+
+def counted_words(filename):
+    """"Count words in a file. """
+    try:
+        with open(filename, encoding='utf-8') as f:
+            contents = f.read()
+    except FileNotFoundError:
+        pass
+    else:
+        words = contents.split()
+        num_words = len(words)
+        print(f"This file {filename} has about {num_words} words. ")
+
+filename = ['alice.txt', 'goosebumps.txt', 'scarlet.txt', 'frankenstein.txt']
+
+for file in filename:
+    counted_words(file)
+    
+# 10-6. Addition: One common problem when prompting for numerical input occurs when people provide text instead of numbers. 
+
+# When you try to convert the input to an int, you’ll get a ValueError. Write a program that prompts for two numbers. 
+
+# Add them together and print the result. Catch the ValueError if either input value is not a number, and print a friendly error message. 
+
+# Test your program by entering two numbers and then by entering some text instead of a number.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 201). No Starch Press. Kindle Edition. 
+    
+def add_num(a,b):
+    """
+    Add numbers.
+    Note: We could not generate a message for the Value Error. We were able to generate a message for ZeroDivision Error instead. 
+    """
+    try:
+        a/b
+    except ZeroDivisionError:
+        print("Sorry. ")
+    else:
+        print(a/b)
+
+add_num(1,2)
+
+add_num(5,0)
+
+
+# 10-7. Addition Calculator: Wrap your code from Exercise 10-6 in a while loop so the user can continue entering numbers 
+
+# even if they make a mistake and enter text instead of a number.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 202). No Starch Press. Kindle Edition. 
+
+# Visual code doesn't allow for input functions 
+
+
+# 10-8. Cats and Dogs: Make two files, cats.txt and dogs.txt. Store at least three names of cats in the first file and three names of dogs in the second file. 
+
+# Write a program that tries to read these files and print the contents of the file to the screen. 
+
+# Wrap your code in a try-except block to catch the FileNotFound error, and print a friendly message if a file is missing. 
+
+# Move one of the files to a different location on your system, and make sure the code in the except block executes properly.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 202). No Starch Press. Kindle Edition. 
+
+
+filename = 'cats.txt'
+
+with open(filename, 'w') as f:
+    f.write('frack frank frick')
+    
+# filename = 'dogs.txt'
+
+# with open(filename, 'w') as f:
+#     f.write('dennis charlie mac')
+
+
+with open('cats.txt') as f:
+    lines = f.readlines()
+
+f_string = ''
+for line in lines:
+    f_string += line.strip()
+    
+print(f_string)
+print(len(f_string))
+
+
+def sunny(filename):
+    """An attempt to create a try/except block. """
+    
+    try:
+        with open(filename, encoding='utf-8') as f:
+            contents = f.read()
+    except FileNotFoundError:
+        print(f"Sorry, {filename} Not Available. ")
+    else:
+        words = contents.split()
+        num_words = len(words)
+        print(f"This {filename} file has {num_words} words. ")
+        
+filename = ['cats.txt', 'dogs.txt', 'bird.txt']
+
+for file in filename:
+    sunny(file)
+
+
+try:        # below you have the relative path for animals.txt and the output is 4 words. 
+    with open('practice/animals.txt', encoding='utf-8') as f:
+        contents= f.read()
+except FileNotFoundError:
+    pass
+else: 
+    words = contents.split()
+    num_words = len(words)
+    print(f"{num_words}")
+    
+
+# 10-9. Silent Cats and Dogs: Modify your except block in Exercise 10-8 to fail silently if either file is missing.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 202). No Starch Press. Kindle Edition. 
+
+def silent_pets(filename):
+
+    try:
+        with open(filename, encoding='utf-8') as f:
+            contents = f.read()
+    except FileNotFoundError:
+        pass
+    else:
+        words = contents.split()
+        num_words = len(words)
+        print(f"this {filename} has {num_words} words. ")
+    
+filename = ['dogs.txt', 'birds.txt', 'cats.txt']
+
+for file in filename:
+    silent_pets(file)
+    
+    
+# 10-10. Common Words: Write a program that reads the files you found at Project Gutenberg and determines how many times the word 'the' appears in each text. 
+
+# This will be an approximation because it will also count words such as 'then' and 'there'. 
+
+# Try counting 'the ', with a space in the string, and see how much lower your count is.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 202). No Starch Press. Kindle Edition. 
+
+def counted_words(filename):
+    """An attempt to count a particular word in a text. """
+    
+    try:
+        with open(filename, encoding='utf-8') as f:
+            contents = f.read()
+    except FileNotFoundError:
+        pass
+    else:
+        words = contents.split()
+        num_words = words.count('the')      # the book hinted at this line with its capitalization example. You did this by yourself. Great job! 
+        print(f"{filename} has the word 'the' {num_words} times. ")
+        
+filename = ['alice.txt', 'frankenstein.txt', 'scarlet.txt']
+        
+for file in filename:
+    counted_words(file)
+    
+
+
+# Storing Data 
+
+
+import json
+
+numbers = [2,3,5,7,11,13]
+
+# 1
+
+filename = 'numbers.json'
+
+with open(filename, 'w') as f:
+    json.dump(numbers, f)
+
+# 2
+    
+filename = 'numbers.json'
+
+with open(filename) as f:
+    numbers = json.load(f)
+    
+print(numbers)
+
+# This is a simple way to share data between two programs. 
+
+# Saving and Reading User-Generated Data
+
+import json
+
+username = input("What is your name? ")
+
+filename = 'username.json'
+
+with open(filename, 'w') as f:
+    json.dump(username, f)
+    print(f"We'll remember you when you come back, {username}. ")
