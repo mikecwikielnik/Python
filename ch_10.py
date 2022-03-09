@@ -2,6 +2,7 @@
 """Files and Exceptions. """
 
 
+from csv import excel_tab
 from itertools import count
 from urllib.error import ContentTooShortError
 from isort import file
@@ -453,10 +454,220 @@ print(numbers)
 
 import json
 
-username = input("What is your name? ")
+username = input("What is your name? ")     # You must stop here so you can input a name. 
 
 filename = 'username.json'
 
 with open(filename, 'w') as f:
     json.dump(username, f)
     print(f"We'll remember you when you come back, {username}. ")
+    
+import json 
+
+filename = 'username.json.'
+
+with open(filename) as f:
+    username = json.load(f)
+    print(f"Welcome back, {username}! ")
+    
+    
+# 3
+
+import json 
+
+# Load the username, if it has been stored 
+#   Otherwise, prompt the username and store it. 
+
+filename = 'username.json'
+try:
+    with open(filename) as f:
+        username = json.load(f)
+except FileNotFoundError:
+    username = input("What is your name? ")
+    with open(filename, 'w') as f:
+        json.dump(username, f)
+        print(f"We'll remember you when you come back, {username}! ")
+else: 
+    print(f"Welcome back, {username}! ")
+
+
+
+# Refactoring 
+
+import json
+
+def greet_user():
+    """Greet the user by name. """
+    filename = 'username.json'
+    try:
+        with open(filename) as f:
+            username = json.load(f)
+    except FileNotFoundError:
+        username = input("What is your name? ")
+        with open(filename, 'w') as f:
+            json.dump(username, f)
+            print(f"We'll remember you when you come back, {username}!")
+    else:
+        print(f"Welcome back, {username}! ")
+
+greet_user()
+
+
+# Let’s refactor greet_user() so it’s not doing so many different tasks.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 206). No Starch Press. Kindle Edition. 
+
+
+import json 
+
+def get_stored_username():
+    """Get stored username if available. """
+    filename = 'username.json'
+    try:
+        with open(filename) as f:
+            username = json.load(f)
+    except FileNotFoundError:
+        return None 
+    else:
+        return username
+    
+def greet_user():
+    """Greet the user by name. """
+    username = get_stored_username
+    if username:
+        print(f"Welcome back, {username}! ")
+    else:
+        username = input("What is your name? ")
+        filename = 'username.json'
+        with open(filename, 'w') as f:
+            json.dump(username, f)
+            print(f"We'll remember you whenn you come back, {username}! ")
+        
+greet_user()
+
+
+# Final product 
+
+
+import json 
+
+def get_stored_username():
+    """Get stored username if available. """
+    filename = 'username.json'
+    try:
+        with open(filename) as f:
+            username = json.load(f)
+    except FileNotFoundError:
+        return None 
+    else:
+        return username
+
+def get_new_username():
+    """Prompt for a new username. """
+    username =  input("what is your name? ")
+    filename = 'username.json'
+    with open(filename, 'w') as f:
+        json.dump(username, f)
+    return username
+
+def greet_user():
+    """Greet the user by name. """
+    username = get_stored_username
+    if username:
+        print(f"Welcome back, {username}! ")
+    else: 
+        username =  get_new_username()
+        print(f"We'll remember you when you come back, {username}! ")
+        
+greet_user()
+
+
+# 10-11. Favorite Number: Write a program that prompts for the user’s favorite number. Use json.dump() to store this number in a file. 
+
+# Write a separate program that reads in this value and prints the message, “I know your favorite number! It’s _____.”
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 208). No Starch Press. Kindle Edition. 
+
+
+import json
+
+user_number = input("What is your favorite number?")    # remember for visual code studio, the hack is to stop here, input number and run rest of code
+
+filename = 'user_number.json'
+
+with open(filename, 'w') as f:
+    json.dump(user_number, f)
+    print(f"I know you favorite number! It's {user_number}! ")
+    
+
+# 10-12. Favorite Number Remembered: Combine the two programs from Exercise 10-11 into one file. If the number is already stored, report the favorite number to the user.
+
+# If not, prompt for the user’s favorite number and store it in a file. Run the program twice to see that it works.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 208). No Starch Press. Kindle Edition. 
+
+import json 
+
+filename = 'user_number.json'
+
+with open(filename) as f:
+    username = json.load(f)
+    print(f"Andy Moog had the number {user_number}! ") 
+    
+    
+# 10-13. Verify User: The final listing for remember_me.py assumes either that the user has already entered their username or that the program is running for the first time. 
+
+# We should modify it in case the current user is not the person who last used the program. 
+
+# Before printing a welcome back message in greet_user(), ask the user if this is the correct username. 
+
+# If it’s not, call get_new_username() to get the correct username.
+
+# Matthes, Eric. Python Crash Course, 2nd Edition (p. 208). No Starch Press. Kindle Edition. 
+
+
+import json
+
+def get_stored_username():
+    """Get stored username if available. """
+    filename = 'username.json'
+    try:
+        with open(filename) as f:
+            username = json.load(f)
+    except FileNotFoundError:
+        return None 
+    else:
+        return username
+
+def get_new_username():
+    """Prompt for a new username. """
+    username =  input("what is your name? ")
+    filename = 'username.json'
+    with open(filename, 'w') as f:
+        json.dump(username, f)
+    return username
+
+def greet_user():
+    """
+    Greet the user by name. 
+    BTW, this version of greet_user() is completely original work. 
+    You developed the program to *your* exact standards. 
+    """
+    username = get_stored_username
+    answer = input(f"Is this your user name {username}? ")      # answer needs a variable so you can assign yes/no to it. 
+    if answer == 'yes':
+        print(f"Hello {username}. ")
+    elif answer == 'no': 
+        username =  get_new_username()      # here, we enter the get_new_username method 
+        print(f"Welcome back {username}! ")
+    else:
+        print("You don't have an account. ")        # anything but yes or no will yield this message 
+        
+
+
+
+get_new_username()
+get_stored_username()
+greet_user()
+
+
